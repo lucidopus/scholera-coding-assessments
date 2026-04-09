@@ -15,6 +15,23 @@ Your task is to **build a mobile application prototype** that demonstrates your 
 
 ---
 
+## How the Platform Works
+
+Before diving into features, it helps to understand which side of the platform each piece of data comes from — because this shapes how the mobile app should present it.
+
+| Data | Who creates it | Who sees it |
+|------|---------------|-------------|
+| Announcements | Professor | Students |
+| Modules & content | Professor | Students |
+| Grades | Professor (sets them) | Students (read-only) |
+| Course Roadmap | Professor (builds the structure) | Both — professors edit, students track progress |
+| Extracted Topics | System (AI-extracted from professor's uploaded lectures) | Both — students see topics surfaced on roadmap nodes |
+| Profile | Student | Student |
+
+The mobile app you are building is **student-facing only**. You will not be implementing any professor-side creation or editing flows. However, understanding where data originates will help you design the right interactions — for example, a student cannot edit a roadmap node, but they can mark their own progress on it.
+
+---
+
 ## The Assignment
 
 Build a mobile application for a student-facing LMS. You may use **any mobile framework** — React Native, Flutter, SwiftUI, Jetpack Compose, or Expo. Choose whatever you are most productive in.
@@ -29,10 +46,11 @@ We will provide you with a Supabase project URL and an anon key to use for the a
 
 - **Auth** — Email/password sign-in via Supabase Auth
 - **Courses** — A list of courses the authenticated student is enrolled in
-- **Announcements** — Per-course announcements from professors
-- **Modules** — Course content organized in modules (lectures, videos, links, notes)
-- **Grades** — Student's grades per course
-- **Roadmap** — Course topic roadmap with per-node progress status
+- **Announcements** — Per-course announcements created by professors
+- **Modules** — Course content organized in modules (lectures, videos, links, notes), created by professors
+- **Grades** — Student's grades set by the professor
+- **Roadmap** — Course topic roadmap built by the professor, with per-node progress status per student
+- **Topics** — AI-extracted key topics from uploaded lecture documents, linked to roadmap nodes
 - **Profile** — Student profile (name, avatar, bio, social links)
 
 You will interact with these via the Supabase JS/Dart/Swift/Kotlin SDK, or directly via the PostgREST REST API. We will share the credentials when you confirm you are starting the assignment.
@@ -61,38 +79,25 @@ Supabase documentation: https://supabase.com/docs
 
 ### 4. Course Detail Screen
 A tabbed or sectioned view that includes:
-- **Announcements tab** — List of course announcements. Tapping one opens the full text.
-- **Modules tab** — Course content organized by module. Each module shows its items (lecture files, videos, links, notes). Indicate item type visually (icon, label).
-- **Grades tab** — Student's grades for this course (quiz scores, overall grade if set by professor)
+- **Announcements tab** — List of course announcements posted by the professor. Tapping one opens the full text. *(Professor creates → Student reads)*
+- **Modules tab** — Course content organized by module, uploaded by the professor. Each module shows its items (lecture files, videos, links, notes). Indicate item type visually (icon, label). *(Professor creates → Student browses)*
+- **Grades tab** — Student's grades for this course, set by the professor. *(Professor sets → Student views, read-only)*
 
 ### 5. Course Roadmap Viewer
-- From the Course Detail screen, students can access a visual roadmap of the course topics
+The course roadmap is built by the professor — they define the structure, the nodes, and the order. Students use the roadmap to track their own learning progress through the course.
+
+- From the Course Detail screen, students can access the course roadmap
 - Display the roadmap as a scrollable list or node graph — your choice, justify it
-- Each node represents a topic or module item; show its completion status (not started, in progress, complete)
-- Students should be able to mark a topic as complete directly from the mobile view
-- The roadmap data is fetched from the API and reflects real course content
+- Each node represents a topic or lecture item. Show the AI-extracted topics for that node (e.g. "Gradient Descent", "Backpropagation") alongside the node. *(Professor uploads lecture → System extracts topics → Student sees them)*
+- Show the student's completion status per node (not started, in progress, complete)
+- Students can mark their own progress on a node — this is the one interactive write action on a professor-defined structure
 
 ### 6. Profile Screen
 - Display the student's avatar, name, email, and bio
 - Allow editing the display name and bio (save changes back to the database)
 - Show links (e.g. GitHub, LinkedIn) if set
 
-### 7. AI-Powered Announcement Summarizer
-Professors often post long announcements. Build a feature that lets students tap a button on any announcement to get a short AI-generated summary — 2 to 3 bullet points covering what the student needs to know and any action items.
-
-This feature should call the **Google Gemini API** directly from the mobile client. We are pointing you to the docs because we want to see how quickly you can read unfamiliar documentation and ship something real with it.
-
-**Relevant docs:**
-- Gemini API overview: https://ai.google.dev/gemini-api/docs
-- Quickstart (text generation): https://ai.google.dev/gemini-api/docs/quickstart
-- API key setup: https://ai.google.dev/gemini-api/docs/api-key
-- SDKs available for JS/TS, Swift, Dart (Flutter), Android (Kotlin): https://ai.google.dev/gemini-api/docs/downloads
-
-A free Gemini API key is available via Google AI Studio at https://aistudio.google.com — no billing required for the usage in this assignment.
-
-The summary should appear inline on the announcement detail screen. Show a loading indicator while the request is in flight, and handle errors gracefully if the API call fails.
-
-### 8. Deep Linking
+### 7. Deep Linking
 - The app should handle a direct link to a specific announcement (e.g. `scholera://courses/{courseId}/announcements/{announcementId}`)
 - Opening this link from outside the app should navigate the user directly to that announcement (after login, if not already authenticated)
 
@@ -117,9 +122,8 @@ You do not need to match our web design exactly. Use your design judgment.
 - **Framework:** Any — React Native, Expo, Flutter, SwiftUI, Jetpack Compose
 - **Language:** TypeScript, Dart, Swift, or Kotlin
 - **Database integration:** Must use the provided Supabase backend (no fake/mock data in the final submission)
-- **AI integration:** Gemini API called directly from the client (see Feature #7)
 - **State management:** Your choice — use what you're comfortable with
-- **Navigation:** Proper stack + tab navigation with deep linking support (see Feature #8)
+- **Navigation:** Proper stack + tab navigation with deep linking support (see Feature #7)
 - **No backend code required** — You are building a mobile client only
 - The app should run on iOS Simulator, Android Emulator, or a physical device. Include setup instructions.
 
@@ -133,7 +137,7 @@ You do not need to match our web design exactly. Use your design judgment.
 | **API Integration** | Is real data loading correctly? Are edge cases handled (empty responses, failed requests, auth expiry)? |
 | **Code Organization** | Is the code readable, modular, and maintainable? Is there a clear separation of concerns? |
 | **Data Flow** | Is state managed sensibly? Does the app avoid unnecessary re-fetching? Does it cache where appropriate? |
-| **AI Integration** | Is the Gemini summarizer implemented correctly? Does it handle loading and error states well? |
+| **Roadmap & Topics** | Are extracted topics displayed meaningfully on roadmap nodes? Is the student's progress interaction smooth and correctly persisted? |
 | **Navigation** | Does deep linking work correctly? Is the navigation stack logical and recoverable (no dead ends)? |
 | **Performance** | Does it feel fast? Are there obvious jank issues or loading delays that should not exist? |
 
@@ -179,9 +183,8 @@ We are interested in your judgment and self-awareness about when to trust AI out
    - "How I Used AI Assistance" section
 4. Record a demo video (5–10 minutes) of the app running on a simulator or physical device, and include it in the repository or as a link in the README. The video should walk through:
    - Signing in
-   - Viewing courses and course content
-   - The roadmap viewer and marking a topic complete
-   - The AI announcement summarizer in action
+   - Viewing courses, announcements, and modules
+   - The roadmap viewer — showing extracted topics on nodes and marking progress
    - Editing profile
    - Any stretch goals you completed
 
@@ -192,7 +195,7 @@ Share the repo link via email.
 ## Notes
 
 - You may use any open-source libraries, frameworks, or third-party packages
-- Do not add a backend — the Supabase client and Gemini API are your only external integrations
+- Do not add a backend — the Supabase client is your only data source
 - You do not need to implement professor or admin views — students only
 - We care more about UX quality and integration correctness than feature count
 - If you run into API issues (missing data, unclear schema), document it and work around it — we value problem-solving over a perfectly polished demo
