@@ -188,11 +188,9 @@ You do not need to match our web design exactly. Use your design judgment.
 
 - **Framework:** Any — React Native (Preferred), Flutter, SwiftUI
 - **Language:** TypeScript, Dart, Swift, or Kotlin
-- **Database integration:** All data must come from the provided Supabase backend — no hardcoded or mocked data in the final submission. You are welcome to seed your own test data into the database, but the app must read from and write to it in real time.
+- **Database integration:** All data must come from Supabase backend — no hardcoded or mocked data in the final submission. You are welcome to seed your own test data into the database, but the app must read from and write to it in real time.
 - **State management:** Your choice — use what you're comfortable with
 - **Navigation:** Role-based routing from login, plus proper stack + tab navigation with deep linking support
-- **No backend code required** — You are building a mobile client only
-- The app should run on iOS Simulator, Android Emulator, or a physical device. Include setup instructions.
 
 ---
 
@@ -216,23 +214,15 @@ You do not need to match our web design exactly. Use your design judgment.
 These are not required and will not be evaluated, but completing any of them will strengthen your profile:
 
 - **Push notifications** — When a new announcement is posted, show a local notification (simulated is fine)
-- **Dark mode** — Full dark mode support following platform conventions
-- **Accessibility** — Screen reader support, proper contrast ratios, touch target sizing
 - **Biometric auth** — Face ID / fingerprint login for returning users
 - **Animated transitions** — Smooth, purposeful screen transitions (not just fade)
 - **Real-time announcements** — Use Supabase Realtime to push new announcements without requiring a pull-to-refresh
+- **Topic extraction** — When a professor uploads a lecture file to a module, extract the key topics from it and display them on the module item. These topics are what appear on the roadmap next to each item, so students know what a lecture covers before opening it. At a basic level, you could parse the file and pull out headings or keywords. But if you want to go further, use the **Google Gemini API** to extract topics intelligently from the file's text content — this is closer to how our platform actually works, and it would be a strong signal of your ability to integrate AI into a real product flow.
 
-### Bonus: AI Topic Extraction *(Profile booster — not evaluated)*
-
-On the professor side, when a lecture file is uploaded to a module, our platform automatically extracts the key topics from it using an AI model. These topics are what show up on the roadmap next to each item.
-
-If you want to go the extra mile, implement this extraction step on the mobile client: when a professor uploads a lecture file, send its text content to the **Google Gemini API** and ask it to extract the key topics covered. Display those topics immediately on the module item, before they are stored to the database.
-
-This is purely a bonus. We will not score it. But if you can pull it off cleanly, it demonstrates that you can read unfamiliar API docs, work with AI responses, and integrate it into a real UI flow — all skills that matter to us.
-
-**Relevant docs:**
-- Gemini API quickstart: https://ai.google.dev/gemini-api/docs/quickstart
-- API key (free via Google AI Studio): https://aistudio.google.com
+**Relevant Gemini docs (if you go the LLM route):**
+- Overview: https://ai.google.dev/gemini-api/docs
+- Quickstart: https://ai.google.dev/gemini-api/docs/quickstart
+- Free API key via Google AI Studio: https://aistudio.google.com
 - SDKs for JS/TS, Dart, Swift, Kotlin: https://ai.google.dev/gemini-api/docs/downloads
 
 ---
