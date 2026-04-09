@@ -9,34 +9,39 @@
 
 We are building **Scholera**, an AI-native Learning Management System (LMS) used by universities. The platform is currently web-only. We are hiring a mobile developer to build the native mobile companion for Scholera.
 
-The mobile app is not a simplified version of the web — it is a first-class product that serves students in their day-to-day academic life: checking course updates on the go, viewing their progress, browsing course content, and staying on top of assignments.
-
-Your task is to **build a mobile application prototype** that demonstrates your ability to ship a polished, functional, well-integrated mobile experience.
+The mobile app serves three distinct roles — admin, professor, and student — each with their own experience. Your task is to **build a mobile application prototype** that handles all three, demonstrating your ability to ship a polished, functional, role-aware mobile experience.
 
 ---
 
 ## How the Platform Works
 
-Before diving into features, it helps to understand which side of the platform each piece of data comes from — because this shapes how the mobile app should present it.
+Scholera has three user roles, each with a different relationship to the data:
+
+| Role | Responsibilities |
+|------|-----------------|
+| **Admin** | Manages departments, professors, students, courses, and programs across the institution |
+| **Professor** | Creates and manages their course sections — announcements, modules, grades, roadmaps |
+| **Student** | Browses enrolled courses, views content posted by professors, tracks their own progress |
+
+Some data is shared across roles but with different permissions:
 
 | Data | Who creates it | Who sees it |
 |------|---------------|-------------|
-| Announcements | Professor | Students |
-| Modules & content | Professor | Students |
+| Announcements | Professor | Students (read-only) |
+| Modules & content | Professor | Students (read-only) |
 | Grades | Professor (sets them) | Students (read-only) |
-| Course Roadmap | Professor (builds the structure) | Both — professors edit, students track progress |
-| Extracted Topics | System (AI-extracted from professor's uploaded lectures) | Both — students see topics surfaced on roadmap nodes |
-| Profile | Student | Student |
-
-The mobile app you are building is **student-facing only**. You will not be implementing any professor-side creation or editing flows. However, understanding where data originates will help you design the right interactions — for example, a student cannot edit a roadmap node, but they can mark their own progress on it.
+| Course Roadmap | Professor (builds structure) | Professor (edits), Student (tracks progress) |
+| Extracted Topics | System — AI-extracted from professor's uploaded lectures | Both — surfaced on roadmap nodes |
+| Departments / Programs | Admin | Admin |
+| Profile | Each user (own profile) | That user |
 
 ---
 
 ## The Assignment
 
-Build a mobile application for a student-facing LMS. You may use **any mobile framework** — React Native, Flutter, SwiftUI, Jetpack Compose, or Expo. Choose whatever you are most productive in.
+Build a mobile application for Scholera. You may use **any mobile framework** — React Native, Flutter, SwiftUI, Jetpack Compose, or Expo. Choose whatever you are most productive in.
 
-The backend is provided as a REST API. Your app should authenticate users, fetch real data, and allow meaningful interactions — not just display hardcoded content.
+The backend is provided as a REST API. Your app should authenticate users, detect their role, and render the appropriate experience — not just display hardcoded content.
 
 ---
 
@@ -44,14 +49,15 @@ The backend is provided as a REST API. Your app should authenticate users, fetch
 
 We will provide you with a Supabase project URL and an anon key to use for the assignment. This gives you access to:
 
-- **Auth** — Email/password sign-in via Supabase Auth
-- **Courses** — A list of courses the authenticated student is enrolled in
+- **Auth** — Email/password sign-in via Supabase Auth; user role is stored in the profile
+- **Profiles** — User profile with role field (`admin`, `professor`, `student`)
+- **Courses / Sections** — Course sections with enrollment and assignment data
 - **Announcements** — Per-course announcements created by professors
-- **Modules** — Course content organized in modules (lectures, videos, links, notes), created by professors
-- **Grades** — Student's grades set by the professor
-- **Roadmap** — Course topic roadmap built by the professor, with per-node progress status per student
+- **Modules** — Course content organized in modules (lectures, videos, links, notes)
+- **Grades** — Per-student grades set by professors
+- **Roadmap** — Course topic roadmap with per-node progress status per student
 - **Topics** — AI-extracted key topics from uploaded lecture documents, linked to roadmap nodes
-- **Profile** — Student profile (name, avatar, bio, social links)
+- **Departments / Programs** — Institution-level data managed by admins
 
 You will interact with these via the Supabase JS/Dart/Swift/Kotlin SDK, or directly via the PostgREST REST API. We will share the credentials when you confirm you are starting the assignment.
 
@@ -61,56 +67,94 @@ Supabase documentation: https://supabase.com/docs
 
 ## Required Features
 
-### 1. Authentication
+### 1. Authentication & Role-Based Routing
 - Email and password sign-in
-- Persist the session across app restarts (don't require re-login every time)
-- Sign-out functionality
+- After login, read the user's role from their profile (`admin`, `professor`, or `student`)
+- Route each role to a completely separate home experience — the app should look and feel different depending on who is logged in
+- Persist the session across app restarts
 - Handle expired sessions gracefully
+- Sign-out from any role
 
-### 2. Home / Dashboard Screen
-- Show a personalized greeting with the student's name
-- Show a summary of what's new: unread announcements count, any recent grade updates
-- This screen should load real data from the API, not be hardcoded
+We will provide test credentials for all three roles so you can demo each one.
 
-### 3. My Courses Screen
+---
+
+### Admin Experience
+
+#### 2. Admin Dashboard
+- Overview of institution stats: total students, professors, courses, departments
+- All data fetched from the API — no hardcoding
+
+#### 3. Department & Professor Management
+- List all departments with their assigned professors
+- Tapping a department shows its details and the professors within it
+- Tapping a professor shows their profile and assigned courses
+
+---
+
+### Professor Experience
+
+#### 4. My Courses
+- List all course sections the professor teaches
+- Tapping a course opens the Course Management screen
+
+#### 5. Course Management Screen
+A tabbed view for managing a single course section:
+- **Announcements tab** — View existing announcements and create new ones (title + body)
+- **Modules tab** — Browse module items uploaded to the course
+- **Grades tab** — View the grade list for enrolled students; ability to set or update a grade for a student
+
+#### 6. Course Roadmap Editor *(Professor side)*
+The professor defines the roadmap structure — the nodes, the order, and the content linked to each node.
+
+- View the course roadmap as a list or graph
+- Each node shows its title and the AI-extracted topics associated with it *(System extracts topics from uploaded lectures → Professor sees them on the node)*
+- Professor can update the completion status of a node (e.g. mark it as published or active)
+
+---
+
+### Student Experience
+
+#### 7. My Courses
 - List all courses the student is enrolled in
-- Each course card should show: course name, professor name, section, and a visual enrollment status indicator
 - Tapping a course opens the Course Detail screen
 
-### 4. Course Detail Screen
-A tabbed or sectioned view that includes:
-- **Announcements tab** — List of course announcements posted by the professor. Tapping one opens the full text. *(Professor creates → Student reads)*
-- **Modules tab** — Course content organized by module, uploaded by the professor. Each module shows its items (lecture files, videos, links, notes). Indicate item type visually (icon, label). *(Professor creates → Student browses)*
-- **Grades tab** — Student's grades for this course, set by the professor. *(Professor sets → Student views, read-only)*
+#### 8. Course Detail Screen
+A tabbed view that includes:
+- **Announcements tab** — Announcements posted by the professor. Tapping one opens the full text. *(Read-only)*
+- **Modules tab** — Course content by module. Each item shows type visually (icon, label). *(Read-only)*
+- **Grades tab** — The student's own grades for this course. *(Read-only)*
 
-### 5. Course Roadmap Viewer
-The course roadmap is built by the professor — they define the structure, the nodes, and the order. Students use the roadmap to track their own learning progress through the course.
+#### 9. Course Roadmap Viewer *(Student side)*
+The roadmap structure is defined by the professor. Students use it to track their own learning progress.
 
-- From the Course Detail screen, students can access the course roadmap
-- Display the roadmap as a scrollable list or node graph — your choice, justify it
-- Each node represents a topic or lecture item. Show the AI-extracted topics for that node (e.g. "Gradient Descent", "Backpropagation") alongside the node. *(Professor uploads lecture → System extracts topics → Student sees them)*
-- Show the student's completion status per node (not started, in progress, complete)
-- Students can mark their own progress on a node — this is the one interactive write action on a professor-defined structure
+- View the course roadmap as a scrollable list or node graph — your choice, justify it
+- Each node shows its title and the AI-extracted topics (e.g. "Gradient Descent", "Backpropagation") *(Professor uploads lecture → System extracts topics → Student sees them)*
+- Show the student's own completion status per node (not started, in progress, complete)
+- Student can mark their own progress on a node
 
-> **Note:** The topic data is already pre-computed and stored in the database — you are not expected to run any AI or extraction logic yourself. Your job is purely to fetch and display it well. We are evaluating how cleanly you integrate with the API and surface this data in the UI, not your knowledge of AI or prompting.
+> **Note:** The topic data is already pre-computed and stored in the database — you are not expected to run any AI or extraction logic. Your job is to fetch it and display it clearly. We are evaluating API integration and UI quality, not AI knowledge.
 
-### 6. Profile Screen
-- Display the student's avatar, name, email, and bio
-- Allow editing the display name and bio (save changes back to the database)
-- Show links (e.g. GitHub, LinkedIn) if set
+---
 
-### 7. Deep Linking
+### Shared
+
+#### 10. Profile Screen
+- Any role can view and edit their own profile (display name, bio, avatar)
+- Save changes back to the database
+
+#### 11. Deep Linking
 - The app should handle a direct link to a specific announcement (e.g. `scholera://courses/{courseId}/announcements/{announcementId}`)
-- Opening this link from outside the app should navigate the user directly to that announcement (after login, if not already authenticated)
+- Opening this link should navigate the user directly to that announcement after login
 
 ---
 
 ## Design Requirements
 
 - The UI should feel **native and polished** — not a web page inside a WebView
+- Each role's experience should feel distinct and purposeful — not just the same screens with different data
 - Use platform conventions (iOS or Android) where appropriate
 - Consistent visual language throughout: spacing, typography, color usage
-- Readable and well-organized — the information hierarchy should be obvious at a glance
 - Empty states should be handled (e.g. "No announcements yet" instead of a blank screen)
 - Loading states should be smooth (skeletons, spinners, or shimmer — not abrupt flashes)
 - Errors should surface to the user in a friendly way (not crash, not silently fail)
@@ -125,7 +169,7 @@ You do not need to match our web design exactly. Use your design judgment.
 - **Language:** TypeScript, Dart, Swift, or Kotlin
 - **Database integration:** Must use the provided Supabase backend (no fake/mock data in the final submission)
 - **State management:** Your choice — use what you're comfortable with
-- **Navigation:** Proper stack + tab navigation with deep linking support (see Feature #7)
+- **Navigation:** Role-based routing from login, plus proper stack + tab navigation with deep linking support
 - **No backend code required** — You are building a mobile client only
 - The app should run on iOS Simulator, Android Emulator, or a physical device. Include setup instructions.
 
@@ -135,13 +179,13 @@ You do not need to match our web design exactly. Use your design judgment.
 
 | Dimension | What We Are Looking For |
 |-----------|------------------------|
-| **UI Quality** | Does it look like a real app? Is it polished and consistent? Would a student actually enjoy using it? |
-| **API Integration** | Is real data loading correctly? Are edge cases handled (empty responses, failed requests, auth expiry)? |
-| **Code Organization** | Is the code readable, modular, and maintainable? Is there a clear separation of concerns? |
-| **Data Flow** | Is state managed sensibly? Does the app avoid unnecessary re-fetching? Does it cache where appropriate? |
-| **Roadmap & Topics** | Are extracted topics displayed meaningfully on roadmap nodes? Is the student's progress interaction smooth and correctly persisted? |
-| **Navigation** | Does deep linking work correctly? Is the navigation stack logical and recoverable (no dead ends)? |
-| **Performance** | Does it feel fast? Are there obvious jank issues or loading delays that should not exist? |
+| **Role-Based Routing** | Does login correctly detect the role and route to the right experience? Is the separation clean? |
+| **UI Quality** | Does each role's experience feel polished and appropriate? Would the actual users enjoy using it? |
+| **API Integration** | Is real data loading correctly across all roles? Are edge cases handled (empty states, errors, auth expiry)? |
+| **Code Organization** | Is the code readable and maintainable? Is role-based logic cleanly separated from UI logic? |
+| **Roadmap & Topics** | Are extracted topics displayed meaningfully on nodes? Is student progress correctly persisted? |
+| **Navigation** | Does deep linking work? Is the stack logical and recoverable across all roles? |
+| **Performance** | Does it feel fast? Are there obvious jank or loading issues? |
 
 ---
 
@@ -154,7 +198,7 @@ These are not required but will strengthen your submission:
 - **Accessibility** — Screen reader support, proper contrast ratios, touch target sizing
 - **Biometric auth** — Face ID / fingerprint login for returning users
 - **Animated transitions** — Smooth, purposeful screen transitions (not just fade)
-- **Real-time announcements** — Use Supabase Realtime to push new announcements to the app without requiring a pull-to-refresh
+- **Real-time announcements** — Use Supabase Realtime to push new announcements without requiring a pull-to-refresh
 
 ---
 
@@ -180,14 +224,14 @@ We are interested in your judgment and self-awareness about when to trust AI out
 3. Include a `README.md` with:
    - Setup and run instructions (should take under 5 minutes)
    - Framework and key libraries used, with a brief "why" for each major choice
-   - Screenshots or GIFs of each major screen
+   - Screenshots or GIFs of key screens across all three roles
    - Any known issues or limitations
    - "How I Used AI Assistance" section
 4. Record a demo video (5–10 minutes) of the app running on a simulator or physical device, and include it in the repository or as a link in the README. The video should walk through:
-   - Signing in
-   - Viewing courses, announcements, and modules
-   - The roadmap viewer — showing extracted topics on nodes and marking progress
-   - Editing profile
+   - Signing in as each of the three roles (admin, professor, student)
+   - The admin department/professor view
+   - The professor course management and roadmap editor
+   - The student course view, roadmap with extracted topics, and marking progress
    - Any stretch goals you completed
 
 Share the repo link via email.
@@ -198,7 +242,7 @@ Share the repo link via email.
 
 - You may use any open-source libraries, frameworks, or third-party packages
 - Do not add a backend — the Supabase client is your only data source
-- You do not need to implement professor or admin views — students only
+- We will provide test credentials for all three roles
 - We care more about UX quality and integration correctness than feature count
 - If you run into API issues (missing data, unclear schema), document it and work around it — we value problem-solving over a perfectly polished demo
-- If you decide to add a feature that is not listed here because you think it improves the student experience, go for it — but complete the required features first
+- If you decide to add a feature not listed here because it improves the experience, go for it — but complete the required features first
