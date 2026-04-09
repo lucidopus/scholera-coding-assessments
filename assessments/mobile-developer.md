@@ -217,7 +217,7 @@ These are not required and will not be evaluated, but completing any of them wil
 - **Biometric auth** — Face ID / fingerprint login for returning users
 - **Animated transitions** — Smooth, purposeful screen transitions (not just fade)
 - **Real-time announcements** — Use Supabase Realtime to push new announcements without requiring a pull-to-refresh
-- **Topic extraction** — When a professor uploads a lecture file to a module, extract the key topics from it and display them on the module item. These topics are what appear on the roadmap next to each item, so students know what a lecture covers before opening it. At a basic level, you could parse the file and pull out headings or keywords. But if you want to go further, use the **Google Gemini API** to extract topics intelligently from the file's text content — this is closer to how our platform actually works, and it would be a strong signal of your ability to integrate AI into a real product flow.
+- **Lecture insights** — When a professor uploads a lecture file to a module, provide a view that gives a quick digest of that file: a short summary of what the lecture is about, the key topics it covers, and the estimated reading time or page count. This helps professors verify what was uploaded and helps students decide where to focus. At a basic level, you could derive this from the file's metadata and headings. But if you want to go further, use the **Google Gemini API** to generate the summary and extract topics intelligently from the file's text — this is closer to how our platform actually works and would be a strong signal of your ability to integrate AI into a real product flow.
 
 **Relevant Gemini docs (if you go the LLM route):**
 - Overview: https://ai.google.dev/gemini-api/docs
