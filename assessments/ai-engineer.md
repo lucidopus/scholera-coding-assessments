@@ -32,13 +32,13 @@ How you build a system that can hold, navigate, and retrieve knowledge from a la
 Build a backend system (API or CLI) that does two things:
 
 ### 1. Ingest a Course's Materials
-The system should accept multiple documents (PDFs, PPTs) and process them into whatever form your architecture needs. After ingestion, the system should be ready to answer questions and generate content from those documents — fast, and without re-reading everything from scratch on every request.
+The system should accept multiple documents (PDFs, PPTs) and process them into whatever form your architecture needs. After ingestion, the system should be ready to answer questions and generate content from those documents without re-reading everything from scratch on every request.
 
 Think about what happens when a professor uploads their 8th PDF of the semester. The system should handle it gracefully and make that content available to all downstream features.
 
-### 2. Power at Least Two AI Features
+### 2. Build One AI Feature — and Document the Other
 
-Build the following two features on top of your ingestion layer. Both draw from the same processed materials — but the way they use the context is different.
+Pick **one** of the following two features to implement. For the one you do not build, write a clear explanation in your README of how it would work and how it would draw from the same foundation you built. The point is that both features share the same source — like two windows into the same room. If you build one window, show us you understand how the other one opens.
 
 #### Feature A — AI Tutor
 A student can ask a question about the course in natural language. The system should answer accurately, drawing only from the course materials. It should not make things up, and it should be able to handle questions that span multiple lectures.
@@ -62,19 +62,16 @@ The system should return well-formed questions that are grounded in the actual l
 We will test your system with a realistic load: multiple documents, each with 100+ pages. Here is what we are looking at:
 
 **Does it hold up at scale?**
-The system should not break, slow to a crawl, or produce garbage output when given 10 documents instead of 1. Show us what happens when you push it.
+The system should not break or produce garbage output when given 10 documents instead of 1. Show us what happens when you push it.
 
 **Is the information accurate?**
 The tutor's answers and the quiz questions should be grounded in what is actually in the documents. If the system confidently says something wrong, or generates a question that cannot be traced back to the material, that is a problem.
 
-**Is it fast enough to be useful?**
-A student asking a question should not wait 30 seconds for an answer. A professor generating a 10-question quiz from 12 lectures should not wait 5 minutes. Tell us what the latency looks like and what you did to make it acceptable.
-
 **Does the architecture make sense?**
 We want to understand your reasoning. Why did you structure it the way you did? What did you try that did not work? What would break first if the load doubled?
 
-**Are both features drawing from the same foundation?**
-The tutor and the quiz generator should both be powered by the same ingestion pipeline — not two separate systems. Show us that the context layer is the shared foundation.
+**Is the unbuilt feature genuinely addressable from the same foundation?**
+Your README explanation of the feature you did not build should be convincing — not hand-wavy. If someone read it and tried to implement it using your ingestion layer, they should be able to.
 
 ---
 
