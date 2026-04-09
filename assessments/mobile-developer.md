@@ -92,6 +92,8 @@ The course roadmap is built by the professor — they define the structure, the 
 - Show the student's completion status per node (not started, in progress, complete)
 - Students can mark their own progress on a node — this is the one interactive write action on a professor-defined structure
 
+> **Note:** The topic data is already pre-computed and stored in the database — you are not expected to run any AI or extraction logic yourself. Your job is purely to fetch and display it well. We are evaluating how cleanly you integrate with the API and surface this data in the UI, not your knowledge of AI or prompting.
+
 ### 6. Profile Screen
 - Display the student's avatar, name, email, and bio
 - Allow editing the display name and bio (save changes back to the database)
