@@ -32,7 +32,7 @@ Some data is shared across roles but with different permissions:
 | Course Roadmap | Professor (builds structure, sets coverage status) | Professor (manages), Student (tracks own progress) |
 | Extracted Topics | System — AI-extracted from professor's uploaded lectures | Both — surfaced on roadmap items |
 | Departments / Programs | Admin | Admin |
-| Profile | Each user (own profile) | That user |
+| Profile | Each user (own profile) | That user + Other students who are a part of the class |
 
 ---
 
@@ -46,8 +46,6 @@ The backend is provided as a REST API. Your app should authenticate users, detec
 
 ## Backend API
 
-We will provide you with a Supabase project URL and an anon key to use for the assignment. This gives you access to:
-
 - **Auth** — Email/password sign-in via Supabase Auth; user role is stored in the profile
 - **Profiles** — User profile with role field (`admin`, `professor`, `student`)
 - **Courses / Sections** — Course sections with enrollment and assignment data
@@ -57,13 +55,13 @@ We will provide you with a Supabase project URL and an anon key to use for the a
 - **Topics** — AI-extracted key topics from uploaded lecture documents, linked to roadmap nodes
 - **Departments / Programs** — Institution-level data managed by admins
 
-You will interact with these via the Supabase JS/Dart/Swift/Kotlin SDK, or directly via the PostgREST REST API. We will share the credentials when you confirm you are starting the assignment.
+You will interact with these via the Supabase 
 
 Supabase documentation: https://supabase.com/docs
 
 ---
 
-## Required Features
+## Required Features (This is what you'd build)
 
 ### 1. Authentication & Role-Based Routing
 - Email and password sign-in
@@ -73,7 +71,7 @@ Supabase documentation: https://supabase.com/docs
 - Handle expired sessions gracefully
 - Sign-out from any role
 
-We will provide test credentials for all three roles so you can demo each one.
+You can create test credentials for professor, admin and student.
 
 ---
 
@@ -81,7 +79,7 @@ We will provide test credentials for all three roles so you can demo each one.
 
 #### 2. Admin Dashboard
 - Overview of institution stats: total students, professors, courses, departments
-- All data fetched from the API — no hardcoding
+- All data fetched from the API 
 
 #### 3. Department & Professor Management
 - List all departments with their assigned professors
@@ -93,7 +91,7 @@ We will provide test credentials for all three roles so you can demo each one.
 ### Professor Experience
 
 #### 4. My Courses
-- List all course sections the professor teaches
+- List all course sections the professor teaches 
 - Tapping a course opens the Course Management screen
 
 #### 5. Course Management Screen
@@ -215,7 +213,7 @@ You do not need to match our web design exactly. Use your design judgment.
 
 ## Stretch Goals (Optional)
 
-These are not required but will strengthen your submission:
+These are not required and will not be evaluated, but completing any of them will strengthen your profile:
 
 - **Push notifications** — When a new announcement is posted, show a local notification (simulated is fine)
 - **Dark mode** — Full dark mode support following platform conventions
@@ -223,6 +221,19 @@ These are not required but will strengthen your submission:
 - **Biometric auth** — Face ID / fingerprint login for returning users
 - **Animated transitions** — Smooth, purposeful screen transitions (not just fade)
 - **Real-time announcements** — Use Supabase Realtime to push new announcements without requiring a pull-to-refresh
+
+### Bonus: AI Topic Extraction *(Profile booster — not evaluated)*
+
+On the professor side, when a lecture file is uploaded to a module, our platform automatically extracts the key topics from it using an AI model. These topics are what show up on the roadmap next to each item.
+
+If you want to go the extra mile, implement this extraction step on the mobile client: when a professor uploads a lecture file, send its text content to the **Google Gemini API** and ask it to extract the key topics covered. Display those topics immediately on the module item, before they are stored to the database.
+
+This is purely a bonus. We will not score it. But if you can pull it off cleanly, it demonstrates that you can read unfamiliar API docs, work with AI responses, and integrate it into a real UI flow — all skills that matter to us.
+
+**Relevant docs:**
+- Gemini API quickstart: https://ai.google.dev/gemini-api/docs/quickstart
+- API key (free via Google AI Studio): https://aistudio.google.com
+- SDKs for JS/TS, Dart, Swift, Kotlin: https://ai.google.dev/gemini-api/docs/downloads
 
 ---
 
