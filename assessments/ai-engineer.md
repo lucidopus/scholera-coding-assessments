@@ -78,8 +78,6 @@ Your README explanation of the feature you did not build should be convincing �
 ## What We Are Not Evaluating
 
 - Which library, model, or database you use — pick whatever you are most comfortable with
-- Whether you built a frontend — a CLI or API with curl examples is fine
-- The UI — there is no UI requirement
 
 ---
 
