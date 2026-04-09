@@ -85,16 +85,7 @@ Your README explanation of the feature you did not build should be convincing �
 
 We actively encourage using AI coding tools — Claude Code, Cursor, Copilot, or anything else. We use them ourselves.
 
-Create a file called `AI_ASSISTANT_USAGE.md` in your repository. Write it yourself — do not generate it with AI. This is one of the most valuable signals we get from a submission and we read it carefully.
-
-It should cover:
-
-- Which tools you used and what you used them for
-- Where they helped the most — be specific, not generic
-- At least one moment where the AI was wrong or off-track, and what you did about it
-- One specific prompt you gave that meaningfully shaped your implementation — paste the actual prompt and explain what came out of it
-- Parts of the implementation you deliberately did not use AI for, and why
-- Your honest take: how did using AI change how you worked on this?
+Create a file called `AI_ASSISTANT_USAGE.md` in your repository. Write it yourself — do not generate it with AI. Just tell us how you used it.
 
 ---
 
