@@ -112,7 +112,7 @@ Build a screen where the professor can:
 - See all their modules for a course, in order
 - See the items inside each module (with the item type shown clearly — lecture, video, link, note, etc.)
 - Create a new module (just a title is enough)
-- Add a new item to a module — at minimum, support adding a link (URL + title) and a note (plain text). File upload is a bonus.
+- Add a new item to a module — support adding a link (URL + title), a note (plain text), and a file upload (PDF or PPT)
 
 Keep it simple and functional. We are not looking for a full content editor — we want to see how you think about hierarchy and CRUD on a nested data structure.
 
