@@ -85,12 +85,16 @@ Your README explanation of the feature you did not build should be convincing �
 
 We actively encourage using AI coding tools — Claude Code, Cursor, Copilot, or anything else. We use them ourselves.
 
-Include a short section in your README titled **"How I Used AI Assistance"** covering:
+Create a file called `AI_ASSISTANT_USAGE.md` in your repository. Write it yourself — do not generate it with AI. This is one of the most valuable signals we get from a submission and we read it carefully.
 
-- Which tools you used
-- Where they helped the most
-- Where you had to override or correct them
-- One specific example of a prompt you gave and how it shaped your implementation
+It should cover:
+
+- Which tools you used and what you used them for
+- Where they helped the most — be specific, not generic
+- At least one moment where the AI was wrong or off-track, and what you did about it
+- One specific prompt you gave that meaningfully shaped your implementation — paste the actual prompt and explain what came out of it
+- Parts of the implementation you deliberately did not use AI for, and why
+- Your honest take: how did using AI change how you worked on this?
 
 ---
 
@@ -102,7 +106,7 @@ Include a short section in your README titled **"How I Used AI Assistance"** cov
    - Setup instructions — should run locally in under 5 minutes
    - A plain-language explanation of your architecture and why you made the choices you did
    - Honest notes on what breaks, what you would do differently, and what you would build next
-   - "How I Used AI Assistance" section
+4. Include an `AI_ASSISTANT_USAGE.md` — written by you, not generated (see above)
 4. Record a demo video (5–10 minutes) and include it in the repo or link it in the README. Show:
    - Ingesting a real set of lecture documents (more than one)
    - The AI tutor answering a question that spans multiple lectures

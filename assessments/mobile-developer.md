@@ -229,16 +229,18 @@ These are not required and will not be evaluated, but completing any of them wil
 
 ## AI Coding Assistant Usage
 
-We actively encourage using AI coding tools — Claude Code, Cursor, GitHub Copilot, or any other assistant (We use them ourselves)
+We actively encourage using AI coding tools — Claude Code, Cursor, GitHub Copilot, or anything else. We use them ourselves.
 
-Include a short section in your README titled **"How I Used AI Assistance"** covering:
+Create a file called `AI_ASSISTANT_USAGE.md` in your repository. Write it yourself — do not generate it with AI. This is one of the most valuable signals we get from a submission and we read it carefully.
 
-- Which tools you used (e.g. Claude Code, Cursor, Copilot)
-- Where AI help was most valuable (e.g. setting up Supabase auth, designing a component, debugging a layout issue)
-- Where you had to override or correct the AI's suggestions
-- One specific example of a prompt you gave and how it influenced your implementation
+It should cover:
 
-We are interested in your judgment and self-awareness about when to trust AI output and when not to — not in whether or how much you used it.
+- Which tools you used and what you used them for
+- Where they helped the most — be specific, not generic
+- At least one moment where the AI was wrong or off-track, and what you did about it
+- One specific prompt you gave that meaningfully shaped your implementation — paste the actual prompt and explain what came out of it
+- Parts of the implementation you deliberately did not use AI for, and why
+- Your honest take: how did using AI change how you worked on this?
 
 ---
 
@@ -251,7 +253,7 @@ We are interested in your judgment and self-awareness about when to trust AI out
    - Framework and key libraries used, with a brief "why" for each major choice
    - Screenshots or GIFs of key screens across all three roles
    - Any known issues or limitations
-   - "How I Used AI Assistance" section
+4. Include an `AI_ASSISTANT_USAGE.md` — written by you, not generated (see above)
 4. Record a demo video (5–10 minutes) of the app running on a simulator or physical device, and include it in the repository or as a link in the README. The video should walk through:
    - Signing in as each of the three roles (admin, professor, student)
    - The admin department/professor view
