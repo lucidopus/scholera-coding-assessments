@@ -29,9 +29,8 @@ Some data is shared across roles but with different permissions:
 |------|---------------|-------------|
 | Announcements | Professor | Students (read-only) |
 | Modules & content | Professor | Students (read-only) |
-| Grades | Professor (sets them) | Students (read-only) |
-| Course Roadmap | Professor (builds structure) | Professor (edits), Student (tracks progress) |
-| Extracted Topics | System — AI-extracted from professor's uploaded lectures | Both — surfaced on roadmap nodes |
+| Course Roadmap | Professor (builds structure, sets coverage status) | Professor (manages), Student (tracks own progress) |
+| Extracted Topics | System — AI-extracted from professor's uploaded lectures | Both — surfaced on roadmap items |
 | Departments / Programs | Admin | Admin |
 | Profile | Each user (own profile) | That user |
 
@@ -54,8 +53,7 @@ We will provide you with a Supabase project URL and an anon key to use for the a
 - **Courses / Sections** — Course sections with enrollment and assignment data
 - **Announcements** — Per-course announcements created by professors
 - **Modules** — Course content organized in modules (lectures, videos, links, notes)
-- **Grades** — Per-student grades set by professors
-- **Roadmap** — Course topic roadmap with per-node progress status per student
+- **Roadmap** — Course topic roadmap with per-node status (professor coverage + student progress)
 - **Topics** — AI-extracted key topics from uploaded lecture documents, linked to roadmap nodes
 - **Departments / Programs** — Institution-level data managed by admins
 
@@ -101,15 +99,35 @@ We will provide test credentials for all three roles so you can demo each one.
 #### 5. Course Management Screen
 A tabbed view for managing a single course section:
 - **Announcements tab** — View existing announcements and create new ones (title + body)
-- **Modules tab** — Browse module items uploaded to the course
-- **Grades tab** — View the grade list for enrolled students; ability to set or update a grade for a student
+- **Modules tab** — See below
 
-#### 6. Course Roadmap Editor *(Professor side)*
-The professor defines the roadmap structure — the nodes, the order, and the content linked to each node.
+#### 6. Module Management *(The foundation of the professor experience)*
 
-- View the course roadmap as a list or graph
-- Each node shows its title and the AI-extracted topics associated with it *(System extracts topics from uploaded lectures → Professor sees them on the node)*
-- Professor can update the completion status of a node (e.g. mark it as published or active)
+Think of modules as folders, and module items as the files inside them. A professor organizes their course into modules (e.g. "Week 1 — Introduction", "Week 2 — Neural Networks"), and within each module they upload content — lecture slides, videos, links, notes, etc.
+
+This is the most important feature on the professor side, because everything else in the course flows from it:
+- The **roadmap** is built automatically from whatever the professor puts in their modules
+- The **AI-extracted topics** come from the lecture files the professor uploads here
+- Students browse this content to learn
+
+Build a screen where the professor can:
+- See all their modules for a course, in order
+- See the items inside each module (with the item type shown clearly — lecture, video, link, note, etc.)
+- Create a new module (just a title is enough)
+- Add a new item to a module — at minimum, support adding a link (URL + title) and a note (plain text). File upload is a bonus.
+
+Keep it simple and functional. We are not looking for a full content editor — we want to see how you think about hierarchy and CRUD on a nested data structure.
+
+#### 7. Course Roadmap *(Professor side)*
+
+Once a professor has uploaded content into their modules, the roadmap is generated automatically from that content. The professor does not draw it manually — the structure comes straight from their modules and items.
+
+What the professor sees on the roadmap:
+- Each module appears as a group, and each item within it appears underneath
+- Next to each item, the system has automatically extracted the key topics from that lecture (e.g. a slide deck on neural networks might show topics like "Gradient Descent", "Backpropagation", "Activation Functions")
+- The professor can mark each item as not started, in progress, or complete — this is how they signal to students what has been covered in class so far
+
+Build a screen that shows this view clearly. The layout is your choice — a list, a card stack, a simple tree — whatever feels most natural on mobile. The goal is that a professor can glance at their roadmap and immediately see what they've covered and what topics each lecture contains.
 
 ---
 
@@ -123,17 +141,22 @@ The professor defines the roadmap structure — the nodes, the order, and the co
 A tabbed view that includes:
 - **Announcements tab** — Announcements posted by the professor. Tapping one opens the full text. *(Read-only)*
 - **Modules tab** — Course content by module. Each item shows type visually (icon, label). *(Read-only)*
-- **Grades tab** — The student's own grades for this course. *(Read-only)*
 
-#### 9. Course Roadmap Viewer *(Student side)*
-The roadmap structure is defined by the professor. Students use it to track their own learning progress.
+#### 9. Course Roadmap *(Student side)*
 
-- View the course roadmap as a scrollable list or node graph — your choice, justify it
-- Each node shows its title and the AI-extracted topics (e.g. "Gradient Descent", "Backpropagation") *(Professor uploads lecture → System extracts topics → Student sees them)*
-- Show the student's own completion status per node (not started, in progress, complete)
-- Student can mark their own progress on a node
+The student's roadmap is the same structure the professor built — but the student's job is to use it to track their own learning progress through the course.
 
-> **Note:** The topic data is already pre-computed and stored in the database — you are not expected to run any AI or extraction logic. Your job is to fetch it and display it clearly. We are evaluating API integration and UI quality, not AI knowledge.
+What the student sees:
+- The same modules and items the professor organized, in the same order
+- Next to each item, the topics that were automatically extracted from that lecture (e.g. "Gradient Descent", "Backpropagation") — so the student knows at a glance what that lecture is about before opening it
+- Whether the professor has marked that item as covered in class yet (not started / in progress / complete)
+- The student's own personal progress on each item — they can mark things as done for themselves, independently of what the professor has set
+
+The key distinction to get right: the professor's status and the student's own progress are two separate things. A professor marking a lecture as "complete" means they've taught it. A student marking it as "complete" means they've studied it.
+
+Build this screen in whatever layout works best on mobile. It should be easy to scan, easy to update, and clearly show both the topic content and the student's own progress state.
+
+> **Note:** The topic data is already extracted and stored in the database — no AI work needed from you. Just fetch it and show it clearly. We are looking at how well you display structured information and handle interactive state, not at AI knowledge.
 
 ---
 
@@ -183,7 +206,8 @@ You do not need to match our web design exactly. Use your design judgment.
 | **UI Quality** | Does each role's experience feel polished and appropriate? Would the actual users enjoy using it? |
 | **API Integration** | Is real data loading correctly across all roles? Are edge cases handled (empty states, errors, auth expiry)? |
 | **Code Organization** | Is the code readable and maintainable? Is role-based logic cleanly separated from UI logic? |
-| **Roadmap & Topics** | Are extracted topics displayed meaningfully on nodes? Is student progress correctly persisted? |
+| **Module Hierarchy** | Is the module → item hierarchy presented clearly? Does the professor's CRUD work correctly? |
+| **Roadmap & Topics** | Are extracted topics shown clearly on each item? Is the professor/student progress distinction correct? |
 | **Navigation** | Does deep linking work? Is the stack logical and recoverable across all roles? |
 | **Performance** | Does it feel fast? Are there obvious jank or loading issues? |
 
@@ -230,8 +254,9 @@ We are interested in your judgment and self-awareness about when to trust AI out
 4. Record a demo video (5–10 minutes) of the app running on a simulator or physical device, and include it in the repository or as a link in the README. The video should walk through:
    - Signing in as each of the three roles (admin, professor, student)
    - The admin department/professor view
-   - The professor course management and roadmap editor
-   - The student course view, roadmap with extracted topics, and marking progress
+   - The professor module management (creating a module, adding an item)
+   - The professor roadmap — showing coverage status and extracted topics per item
+   - The student course view and roadmap — showing topics and marking their own progress
    - Any stretch goals you completed
 
 Share the repo link via email.
