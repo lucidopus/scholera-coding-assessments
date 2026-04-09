@@ -186,9 +186,9 @@ You do not need to match our web design exactly. Use your design judgment.
 
 ## Technical Requirements
 
-- **Framework:** Any — React Native, Expo, Flutter, SwiftUI, Jetpack Compose
+- **Framework:** Any — React Native (Preferred), Flutter, SwiftUI
 - **Language:** TypeScript, Dart, Swift, or Kotlin
-- **Database integration:** Must use the provided Supabase backend (no fake/mock data in the final submission)
+- **Database integration:** All data must come from the provided Supabase backend — no hardcoded or mocked data in the final submission. You are welcome to seed your own test data into the database, but the app must read from and write to it in real time.
 - **State management:** Your choice — use what you're comfortable with
 - **Navigation:** Role-based routing from login, plus proper stack + tab navigation with deep linking support
 - **No backend code required** — You are building a mobile client only
