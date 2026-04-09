@@ -217,7 +217,7 @@ These are not required and will not be evaluated, but completing any of them wil
 - **Biometric auth** — Face ID / fingerprint login for returning users
 - **Animated transitions** — Smooth, purposeful screen transitions (not just fade)
 - **Real-time announcements** — Use Supabase Realtime to push new announcements without requiring a pull-to-refresh
-- **Lecture insights** — When a professor uploads a lecture file to a module, provide a view that gives a quick digest of that file: a short summary of what the lecture is about, the key topics it covers, and the estimated reading time or page count. This helps professors verify what was uploaded and helps students decide where to focus. At a basic level, you could derive this from the file's metadata and headings. But if you want to go further, use the **Google Gemini API** to generate the summary and extract topics intelligently from the file's text — this is closer to how our platform actually works and would be a strong signal of your ability to integrate AI into a real product flow.
+- **Lecture insights** — When a professor uploads a lecture file to a module, provide a view within the roadmap tab, that gives a quick digest of that file: a short summary of what the lecture is about and a list of the key topics it covers. This helps professors verify what was uploaded and helps students decide where to focus. At a basic level, you could derive this from the file's metadata and headings. But if you want to go further, use the **Google Gemini API** to generate the summary and extract topics intelligently from the file's text — this is closer to how our platform actually works and would be a strong signal of your ability to integrate AI into a real product flow.
 
 **Relevant Gemini docs (if you go the LLM route):**
 - Overview: https://ai.google.dev/gemini-api/docs
@@ -229,7 +229,7 @@ These are not required and will not be evaluated, but completing any of them wil
 
 ## AI Coding Assistant Usage
 
-We actively encourage using AI coding tools — Claude Code, Cursor, GitHub Copilot, or any other assistant. We use them ourselves.
+We actively encourage using AI coding tools — Claude Code, Cursor, GitHub Copilot, or any other assistant (We use them ourselves)
 
 Include a short section in your README titled **"How I Used AI Assistance"** covering:
 
@@ -245,7 +245,7 @@ We are interested in your judgment and self-awareness about when to trust AI out
 ## Submission
 
 1. Create a new public GitHub repository from scratch
-2. Push your completed work with a clear commit history (we will look at your commits)
+2. Push your completed work to the cloned repo provided to you.
 3. Include a `README.md` with:
    - Setup and run instructions (should take under 5 minutes)
    - Framework and key libraries used, with a brief "why" for each major choice
@@ -267,8 +267,6 @@ Share the repo link via email.
 ## Notes
 
 - You may use any open-source libraries, frameworks, or third-party packages
-- Do not add a backend — the Supabase client is your only data source
-- We will provide test credentials for all three roles
 - We care more about UX quality and integration correctness than feature count
 - If you run into API issues (missing data, unclear schema), document it and work around it — we value problem-solving over a perfectly polished demo
 - If you decide to add a feature not listed here because it improves the experience, go for it — but complete the required features first
