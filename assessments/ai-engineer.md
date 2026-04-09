@@ -3,6 +3,8 @@
 **Timeline:** 1–2 weeks  
 **Submission:** GitHub repository link + demo video
 
+> **Note:** This repository is for reading the assignment only. Do not push your code here. Create a brand new repository of your own and share that link with us.
+
 ---
 
 ## Context
