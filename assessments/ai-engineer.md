@@ -1,8 +1,5 @@
 # Take-Home Assignment: AI Engineer
 
-**Timeline:** 1–2 weeks  
-**Submission:** GitHub repository link + demo video
-
 > **Note:** This repository is for reading the assignment only. Do not push your code here. Create a brand new repository of your own and share that link with us.
 
 ---
@@ -37,6 +34,8 @@ Build a backend system (API or CLI) that does two things:
 The system should accept multiple documents (PDFs, PPTs) and process them into whatever form your architecture needs. After ingestion, the system should be ready to answer questions and generate content from those documents without re-reading everything from scratch on every request.
 
 Think about what happens when a professor uploads their 8th PDF of the semester. The system should handle it gracefully and make that content available to all downstream features.
+
+Keep in mind that academic documents are not just plain text. Lecture slides frequently contain diagrams, charts, and images that carry meaning. Courses in engineering, math, or science will have formulas and notation that do not behave like regular prose. Your ingestion layer does not need to solve all of this perfectly — but we want to see that you have thought about it. How does your system handle a slide where the key concept is in a diagram, not a paragraph? What happens to a formula-heavy page? Document your assumptions and any limitations honestly.
 
 ### 2. Build One AI Feature — and Document the Other
 
