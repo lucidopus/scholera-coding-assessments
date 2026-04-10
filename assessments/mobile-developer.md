@@ -1,8 +1,5 @@
 # Take-Home Assignment: Mobile Application Developer
 
-**Timeline:** 1–2 weeks  
-**Submission:** Share a GitHub repository link with a working demo video
-
 > **Note:** This repository is for reading the assignment only. Do not push your code here. Create a brand new repository of your own and share that link with us.
 
 ---
