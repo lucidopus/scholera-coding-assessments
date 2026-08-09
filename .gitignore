@@ -11,3 +11,8 @@ Thumbs.db
 .env.*.local
 
 node_modules/
+
+# Fall-interns roles not currently open — kept on disk, hidden from the repo tree
+fall-interns/data-analytics/
+fall-interns/security-engineer/
+fall-interns/software-engineer/
