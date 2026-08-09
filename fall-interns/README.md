@@ -7,10 +7,8 @@ everything you need is inside it, including the data.
 |---|---|---|
 | **AI/ML Intern** | [`ai-ml-engineer/`](ai-ml-engineer/) — Project SLATE: build an AI canvas, then prove what it costs | ~10 days, part-time |
 | **Frontend Engineer** | [`frontend-engineer/`](frontend-engineer/) — a chat surface that teaches | 10–12 hours |
-| **Software Engineer** | [`software-engineer/`](software-engineer/) — team projects, in a database holding two universities at once | 10–12 hours |
 | **AI/ML Research** | [`ai-ml-research/`](ai-ml-research/) — decide which of three approaches we should ship | 10–12 hours |
-| **Security Engineer** | [`security-engineer/`](security-engineer/) — break a small app we built badly on purpose | 10–12 hours |
-| **Data Analytics** | [`data-analytics/`](data-analytics/) — a semester of event data, and something true to say about it | 10–12 hours |
+
 
 ## Before you start
 
